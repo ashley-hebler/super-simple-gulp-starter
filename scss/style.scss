@@ -1,0 +1,10 @@
+//run gulp and change the background color
+$body-background: dodgerblue;
+body {
+	font-family: sans-serif;
+	background-color: $body-background;
+	color: lighten($body-background, 25%);
+}
+h1 {
+	font-size: 100px;
+}

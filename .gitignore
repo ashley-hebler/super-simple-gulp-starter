@@ -1,0 +1,10 @@
+## UNWANTED FILES ##
+.DS_Store
+Thumbs.db
+
+
+## UNWANTED DIRECTORIES ##
+node_modules/
+.codekit-cache
+.sass-cache
+

@@ -1,19 +1,28 @@
 var gulp = require('gulp');
 var sass = require('gulp-sass');
+var browserSync = require('browser-sync').create();
 
-//Styles
-gulp.task('styles', function () {
-  return gulp.src('./scss/**/*.scss') // Ok so, for my sass files...
-    .pipe(sass({ outputStyle: 'expanded' }).on('error', sass.logError)) // compile those to CSS (change expanded to compressed to see the diff)
-    .pipe(gulp.dest('./css')); // Then dump them in the CSS folder. k?
+
+// Static Server + watching scss/html files
+gulp.task('serve', ['sass'], function() {
+    browserSync.init({
+        server: {
+        	baseDir: "./"
+        }
+    });
+    //Watch task
+    gulp.watch('./scss/*.scss', ['sass']);
+    gulp.watch('./*.html').on('change', browserSync.reload);
+});
+
+// Compile sass into CSS & auto-inject into browsers
+gulp.task('sass', function() {
+    return gulp.src('./scss/**/*.scss')
+        .pipe(sass({ outputStyle: 'expanded' }).on('error', sass.logError))
+        .pipe(gulp.dest('./css'))
+        .pipe(browserSync.stream());
 });
 
 // Default task
-gulp.task('default', ['styles', 'watch']);
+gulp.task('default', ['serve']);
 
-// Watch
-gulp.task('watch', function() {
-  // Watch .scss files
-  gulp.watch('./scss/**/*.scss', ['styles']);
-
-});
